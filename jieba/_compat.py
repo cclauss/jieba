@@ -3,6 +3,13 @@ import os
 import sys
 
 try:
+    text_type = unicode
+    string_types = (str, unicode)
+except NameError:
+    text_type = str
+    string_types = (str,)
+
+try:
     import pkg_resources
     get_module_res = lambda *res: pkg_resources.resource_stream(__name__,
                                                                 os.path.join(*res))
@@ -15,16 +22,11 @@ PY2 = sys.version_info[0] == 2
 default_encoding = sys.getfilesystemencoding()
 
 if PY2:
-    text_type = unicode
-    string_types = (str, unicode)
-
     iterkeys = lambda d: d.iterkeys()
     itervalues = lambda d: d.itervalues()
     iteritems = lambda d: d.iteritems()
 
 else:
-    text_type = str
-    string_types = (str,)
     xrange = range
 
     iterkeys = lambda d: iter(d.keys())
